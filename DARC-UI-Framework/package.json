@@ -1,0 +1,11 @@
+{
+  "name": "darc-framework",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "lint": "pnpm -r lint"
+  }
+}
