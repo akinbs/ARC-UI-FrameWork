@@ -19,16 +19,19 @@ import {
   type PropRow
 } from "@darc/layout";
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   UTILITY COMPONENTS
-   ───────────────────────────────────────────────────────────────────────────── */
+const colors = {
+  primary: "#E23E57",
+  secondary: "#88304E",
+  dark: "#522546",
+  darkest: "#311D3F"
+};
 
 function Chip({ children, variant = "default" }: { children: React.ReactNode; variant?: "default" | "primary" | "success" | "warning" }) {
-  const colors = {
-    default: { border: "rgba(255,255,255,0.14)", bg: "rgba(255,255,255,0.03)" },
-    primary: { border: "rgba(100,140,255,0.35)", bg: "rgba(100,140,255,0.10)" },
-    success: { border: "rgba(80,200,120,0.35)", bg: "rgba(80,200,120,0.10)" },
-    warning: { border: "rgba(255,180,70,0.35)", bg: "rgba(255,180,70,0.10)" }
+  const chipColors = {
+    default: { border: colors.dark, bg: colors.dark },
+    primary: { border: colors.primary, bg: colors.secondary },
+    success: { border: colors.secondary, bg: colors.dark },
+    warning: { border: colors.primary, bg: colors.dark }
   };
 
   return (
@@ -36,9 +39,9 @@ function Chip({ children, variant = "default" }: { children: React.ReactNode; va
       style={{
         fontSize: 12,
         padding: "6px 12px",
-        borderRadius: 999,
-        border: `1px solid ${colors[variant].border}`,
-        background: colors[variant].bg,
+        borderRadius: 4,
+        border: `1px solid ${chipColors[variant].border}`,
+        background: chipColors[variant].bg,
         whiteSpace: "nowrap",
         fontWeight: 600
       }}
@@ -52,7 +55,7 @@ function DemoBox({
   children,
   label,
   height = 60,
-  color = "rgba(100,140,255,0.15)"
+  color = colors.dark
 }: {
   children?: React.ReactNode;
   label?: string;
@@ -63,14 +66,14 @@ function DemoBox({
     <div
       style={{
         height,
-        borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.12)",
+        borderRadius: 6,
+        border: `1px solid ${colors.secondary}`,
         background: color,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         fontSize: 13,
-        fontWeight: 700,
+        fontWeight: 600,
         color: "rgba(255,255,255,0.85)",
         padding: 12,
         textAlign: "center"
@@ -86,35 +89,34 @@ function SectionDivider() {
     <div
       style={{
         height: 1,
-        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
+        background: colors.dark,
         margin: "24px 0"
       }}
     />
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: string; title: string; description: string }) {
+function FeatureCard({ title, description }: { title: string; description: string }) {
   return (
     <div
       style={{
-        borderRadius: 16,
-        border: "1px solid rgba(255,255,255,0.10)",
-        background: "radial-gradient(circle at 20% 10%, rgba(90,120,255,0.08), transparent 55%), rgba(255,255,255,0.02)",
+        borderRadius: 8,
+        border: `1px solid ${colors.dark}`,
+        background: colors.dark,
         padding: 16,
         transition: "all 200ms ease",
         cursor: "default"
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "rgba(100,140,255,0.35)";
+        e.currentTarget.style.borderColor = colors.primary;
         e.currentTarget.style.transform = "translateY(-2px)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.10)";
+        e.currentTarget.style.borderColor = colors.dark;
         e.currentTarget.style.transform = "translateY(0)";
       }}
     >
-      <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>
-      <div style={{ fontWeight: 900, fontSize: 15, marginBottom: 6 }}>{title}</div>
+      <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>{title}</div>
       <div style={{ opacity: 0.75, fontSize: 13, lineHeight: 1.5 }}>{description}</div>
     </div>
   );
@@ -129,11 +131,11 @@ function NavItem({ active, children, onClick }: { active?: boolean; children: Re
         width: "100%",
         textAlign: "left",
         padding: "10px 14px",
-        borderRadius: 10,
+        borderRadius: 6,
         border: "none",
-        background: active ? "rgba(100,140,255,0.15)" : "transparent",
+        background: active ? colors.secondary : "transparent",
         color: active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.7)",
-        fontWeight: active ? 700 : 500,
+        fontWeight: active ? 600 : 400,
         fontSize: 13.5,
         cursor: "pointer",
         transition: "all 150ms ease"
@@ -154,11 +156,11 @@ function LiveBreakpointIndicator() {
         alignItems: "center",
         gap: 8,
         padding: "8px 14px",
-        borderRadius: 999,
-        border: "1px solid rgba(80,200,120,0.35)",
-        background: "rgba(80,200,120,0.10)",
+        borderRadius: 4,
+        border: `1px solid ${colors.primary}`,
+        background: colors.secondary,
         fontSize: 13,
-        fontWeight: 700
+        fontWeight: 600
       }}
     >
       <span
@@ -166,7 +168,7 @@ function LiveBreakpointIndicator() {
           width: 8,
           height: 8,
           borderRadius: "50%",
-          background: "#4ade80",
+          background: colors.primary,
           animation: "pulse 2s infinite"
         }}
       />
@@ -175,10 +177,6 @@ function LiveBreakpointIndicator() {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   DOCUMENTATION SECTIONS
-   ───────────────────────────────────────────────────────────────────────────── */
-
 function IntroSection() {
   return (
     <DocSection
@@ -186,8 +184,8 @@ function IntroSection() {
       description={
         <Stack gap={12}>
           <div>
-            Modern React uygulamaları için tasarlanmış, <b>type-safe</b> ve <b>responsive-first</b> layout sistemi.
-            CSS-in-JS yaklaşımıyla sıfır bağımlılık, maksimum esneklik.
+            A <b>type-safe</b> and <b>responsive-first</b> layout system designed for modern React applications.
+            Zero dependencies, maximum flexibility with CSS-in-JS approach.
           </div>
           <Inline gap={8} wrap>
             <Chip variant="primary">v0.1.0</Chip>
@@ -200,24 +198,20 @@ function IntroSection() {
     >
       <AutoGrid minItemWidth={{ base: 200, md: 240 }} gap={14}>
         <FeatureCard
-          icon="📦"
           title="Primitives"
-          description="Container, Stack, Grid, Inline gibi temel yapı taşları ile tutarlı layout'lar oluşturun."
+          description="Build consistent layouts with fundamental building blocks like Container, Stack, Grid, and Inline."
         />
         <FeatureCard
-          icon="📱"
           title="Responsive"
-          description="Tüm prop'lar breakpoint bazlı değerler alabilir. Mobile-first tasarım otomatik."
+          description="All props can accept breakpoint-based values. Mobile-first design is automatic."
         />
         <FeatureCard
-          icon="🎯"
           title="Type-Safe"
-          description="Tam TypeScript desteği. Otomatik tamamlama ve derleme zamanı hata kontrolü."
+          description="Full TypeScript support. Autocomplete and compile-time error checking."
         />
         <FeatureCard
-          icon="🧩"
           title="Composable"
-          description="Presets ile hazır sayfa şablonları. PageShell, SidebarLayout gibi üst düzey bileşenler."
+          description="Ready-made page templates with presets. High-level components like PageShell and SidebarLayout."
         />
       </AutoGrid>
     </DocSection>
@@ -227,8 +221,8 @@ function IntroSection() {
 function InstallationSection() {
   return (
     <DocSection
-      title="Kurulum"
-      description="Projenize DARC Layout'u ekleyin ve hemen kullanmaya başlayın."
+      title="Installation"
+      description="Add DARC Layout to your project and start using it right away."
     >
       <Stack gap={14}>
         <CodeBlock
@@ -261,21 +255,21 @@ function InstallationSection() {
 
 function BreakpointsSection() {
   const breakpointRows: PropRow[] = [
-    { name: "base", type: "0px", description: "Varsayılan (mobile-first başlangıç noktası)" },
-    { name: "sm", type: "640px", description: "Küçük ekranlar (büyük telefonlar, küçük tabletler)" },
-    { name: "md", type: "768px", description: "Orta ekranlar (tabletler)" },
-    { name: "lg", type: "1024px", description: "Büyük ekranlar (küçük laptoplar)" },
-    { name: "xl", type: "1280px", description: "Çok büyük ekranlar (masaüstü)" },
-    { name: "2xl", type: "1536px", description: "Ekstra büyük ekranlar (geniş monitörler)" }
+    { name: "base", type: "0px", description: "Default (mobile-first starting point)" },
+    { name: "sm", type: "640px", description: "Small screens (large phones, small tablets)" },
+    { name: "md", type: "768px", description: "Medium screens (tablets)" },
+    { name: "lg", type: "1024px", description: "Large screens (small laptops)" },
+    { name: "xl", type: "1280px", description: "Extra large screens (desktop)" },
+    { name: "2xl", type: "1536px", description: "Extra extra large screens (wide monitors)" }
   ];
 
   return (
     <DocSection
-      title="Breakpoint Sistemi"
+      title="Breakpoint System"
       description={
         <Stack gap={10}>
           <div>
-            Tailwind CSS ile uyumlu breakpoint değerleri. Tüm responsive prop'lar bu breakpoint'leri kullanır.
+            Tailwind CSS compatible breakpoint values. All responsive props use these breakpoints.
           </div>
           <LiveBreakpointIndicator />
         </Stack>
@@ -285,15 +279,15 @@ function BreakpointsSection() {
         <PropsTable title="Breakpoints" rows={breakpointRows} />
 
         <CodeBlock
-          title="Responsive Değer Kullanımı"
+          title="Responsive Value Usage"
           language="tsx"
-          code={`// Tek değer (tüm breakpoint'lerde aynı)
+          code={`// Single value (same for all breakpoints)
 <Stack gap={16}>...</Stack>
 
-// Responsive obje (breakpoint bazlı)
+// Responsive object (breakpoint-based)
 <Stack gap={{ base: 8, md: 16, xl: 24 }}>...</Stack>
 
-// Container örneği
+// Container example
 <Container
   size={{ base: "sm", lg: "xl" }}
   gutter={{ base: 12, md: 24 }}
@@ -330,33 +324,33 @@ function ContainerSection() {
       name: "size",
       type: 'Responsive<"sm" | "md" | "lg" | "xl">',
       defaultValue: '"lg"',
-      description: "Container max-width değeri. sm=640px, md=768px, lg=1024px, xl=1280px"
+      description: "Container max-width value. sm=640px, md=768px, lg=1024px, xl=1280px"
     },
     {
       name: "gutter",
       type: "Responsive<number>",
       defaultValue: "16",
-      description: "Sağ ve sol padding değeri (px cinsinden)"
+      description: "Left and right padding value (in px)"
     },
     {
       name: "center",
       type: "boolean",
       defaultValue: "true",
-      description: "Container'ı yatayda ortalar (margin: auto)"
+      description: "Centers the container horizontally (margin: auto)"
     }
   ];
 
   return (
     <DocSection
       title="Container"
-      description="Sayfanın maksimum genişliğini ve yatay padding'ini kontrol eder. Responsive tasarımın temel taşı."
+      description="Controls the maximum width and horizontal padding of the page. The cornerstone of responsive design."
     >
       <Stack gap={14}>
         <PropsTable rows={containerProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 16, padding: 16 }}>
-          <div style={{ fontWeight: 900, fontSize: 13, marginBottom: 12 }}>Live Demo</div>
-          <div style={{ background: "rgba(100,140,255,0.08)", borderRadius: 12, padding: 8 }}>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
+          <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 12 }}>Live Demo</div>
+          <div style={{ background: colors.darkest, borderRadius: 6, padding: 8 }}>
             <Container size="md" gutter={16}>
               <DemoBox label="Container size='md'" height={80} />
             </Container>
@@ -364,7 +358,7 @@ function ContainerSection() {
         </div>
 
         <CodeBlock
-          title="Temel Kullanım"
+          title="Basic Usage"
           language="tsx"
           code={`<Container size="lg" gutter={16}>
   <YourPageContent />
@@ -372,7 +366,7 @@ function ContainerSection() {
         />
 
         <CodeBlock
-          title="Responsive Kullanım"
+          title="Responsive Usage"
           language="tsx"
           code={`<Container
   size={{ base: "sm", md: "lg", xl: "xl" }}
@@ -393,43 +387,43 @@ function StackSection() {
       name: "direction",
       type: 'Responsive<"row" | "column">',
       defaultValue: '"column"',
-      description: "Flex yönü. column=dikey, row=yatay"
+      description: "Flex direction. column=vertical, row=horizontal"
     },
     {
       name: "gap",
       type: "Responsive<number>",
       defaultValue: "12",
-      description: "Elemanlar arası boşluk (px)"
+      description: "Gap between elements (px)"
     },
     {
       name: "align",
       type: "CSSProperties['alignItems']",
-      description: "Cross-axis hizalama (flex-start, center, flex-end, stretch)"
+      description: "Cross-axis alignment (flex-start, center, flex-end, stretch)"
     },
     {
       name: "justify",
       type: "CSSProperties['justifyContent']",
-      description: "Main-axis hizalama (flex-start, center, space-between...)"
+      description: "Main-axis alignment (flex-start, center, space-between...)"
     },
     {
       name: "wrap",
       type: "CSSProperties['flexWrap']",
-      description: "Taşma davranışı (nowrap, wrap, wrap-reverse)"
+      description: "Overflow behavior (nowrap, wrap, wrap-reverse)"
     }
   ];
 
   return (
     <DocSection
       title="Stack"
-      description="Elemanları dikey veya yatay olarak düzenli aralıklarla dizer. En sık kullanılan layout primitive'i."
+      description="Arranges elements vertically or horizontally with consistent spacing. The most commonly used layout primitive."
     >
       <Stack gap={14}>
         <PropsTable rows={stackProps} />
 
         <Grid columns={{ base: 1, md: 2 }} gap={14}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 10, opacity: 0.8 }}>Dikey Stack</div>
-            <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 12 }}>
+            <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10, opacity: 0.8 }}>Vertical Stack</div>
+            <div style={{ background: colors.dark, borderRadius: 8, padding: 12 }}>
               <Stack gap={8}>
                 <DemoBox height={40} label="Item 1" />
                 <DemoBox height={40} label="Item 2" />
@@ -438,35 +432,35 @@ function StackSection() {
             </div>
           </div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 10, opacity: 0.8 }}>Yatay Stack</div>
-            <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 12 }}>
+            <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10, opacity: 0.8 }}>Horizontal Stack</div>
+            <div style={{ background: colors.dark, borderRadius: 8, padding: 12 }}>
               <Stack direction="row" gap={8}>
-                <DemoBox height={60} label="1" color="rgba(100,140,255,0.2)" />
-                <DemoBox height={60} label="2" color="rgba(80,200,120,0.2)" />
-                <DemoBox height={60} label="3" color="rgba(255,180,70,0.2)" />
+                <DemoBox height={60} label="1" color={colors.secondary} />
+                <DemoBox height={60} label="2" color={colors.dark} />
+                <DemoBox height={60} label="3" color={colors.secondary} />
               </Stack>
             </div>
           </div>
         </Grid>
 
         <CodeBlock
-          title="Örnekler"
+          title="Examples"
           language="tsx"
-          code={`// Dikey stack (varsayılan)
+          code={`// Vertical stack (default)
 <Stack gap={16}>
   <Header />
   <Content />
   <Footer />
 </Stack>
 
-// Yatay stack
+// Horizontal stack
 <Stack direction="row" gap={12} align="center">
   <Avatar />
   <UserName />
   <Badge />
 </Stack>
 
-// Responsive yön
+// Responsive direction
 <Stack
   direction={{ base: "column", md: "row" }}
   gap={{ base: 12, md: 24 }}
@@ -482,24 +476,24 @@ function StackSection() {
 
 function InlineSection() {
   const inlineProps: PropRow[] = [
-    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "Elemanlar arası boşluk" },
-    { name: "rowGap", type: "Responsive<number>", description: "Satırlar arası boşluk (wrap durumunda)" },
-    { name: "colGap", type: "Responsive<number>", description: "Sütunlar arası boşluk" },
-    { name: "wrap", type: "boolean", defaultValue: "false", description: "Taşan elemanlar alta geçsin mi?" },
-    { name: "align", type: "CSSProperties['alignItems']", description: "Dikey hizalama" },
-    { name: "justify", type: "CSSProperties['justifyContent']", description: "Yatay hizalama" }
+    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "Gap between elements" },
+    { name: "rowGap", type: "Responsive<number>", description: "Gap between rows (when wrapped)" },
+    { name: "colGap", type: "Responsive<number>", description: "Gap between columns" },
+    { name: "wrap", type: "boolean", defaultValue: "false", description: "Should overflowing elements wrap to next line?" },
+    { name: "align", type: "CSSProperties['alignItems']", description: "Vertical alignment" },
+    { name: "justify", type: "CSSProperties['justifyContent']", description: "Horizontal alignment" }
   ];
 
   return (
     <DocSection
       title="Inline"
-      description="Elemanları yatay olarak sıralar. Wrap desteği ile taşan elemanlar otomatik alta geçer."
+      description="Arranges elements horizontally. With wrap support, overflowing elements automatically move to the next line."
     >
       <Stack gap={14}>
         <PropsTable rows={inlineProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
-          <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>Wrap Demo</div>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
+          <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>Wrap Demo</div>
           <Inline gap={8} wrap>
             {["React", "TypeScript", "Vite", "ESLint", "Prettier", "Tailwind", "Node.js", "pnpm"].map((tag) => (
               <Chip key={tag}>{tag}</Chip>
@@ -508,20 +502,20 @@ function InlineSection() {
         </div>
 
         <CodeBlock
-          title="Kullanım"
+          title="Usage"
           language="tsx"
-          code={`// Basit inline
+          code={`// Simple inline
 <Inline gap={10}>
   <Icon />
   <Text>Label</Text>
 </Inline>
 
-// Wrap ile tag listesi
+// Tag list with wrap
 <Inline gap={8} wrap>
   {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
 </Inline>
 
-// Hizalama ile
+// With alignment
 <Inline gap={12} align="center" justify="space-between">
   <Logo />
   <Spacer />
@@ -540,44 +534,40 @@ function CenterSection() {
       name: "inline",
       type: "boolean",
       defaultValue: "false",
-      description: "true ise inline-flex, false ise flex kullanır"
+      description: "If true uses inline-flex, if false uses flex"
     }
   ];
 
   return (
     <DocSection
       title="Center"
-      description="İçeriği hem yatay hem dikey olarak ortalar. Loading spinner, boş state gibi durumlar için ideal."
+      description="Centers content both horizontally and vertically. Ideal for loading spinners, empty states, etc."
     >
       <Stack gap={14}>
         <PropsTable rows={centerProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
-          <Center style={{ height: 120, border: "1px dashed rgba(255,255,255,0.2)", borderRadius: 8 }}>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
+          <Center style={{ height: 120, border: `1px dashed ${colors.secondary}`, borderRadius: 6 }}>
             <Stack gap={8} align="center">
-              <div style={{ fontSize: 32 }}>🎯</div>
               <div style={{ fontWeight: 700 }}>Centered Content</div>
             </Stack>
           </Center>
         </div>
 
         <CodeBlock
-          title="Kullanım"
+          title="Usage"
           language="tsx"
-          code={`// Tam sayfa loading
+          code={`// Full page loading
 <Center style={{ height: "100vh" }}>
   <Spinner />
 </Center>
 
-// Kart içi ortalama
+// Card centering
 <Center style={{ height: 200 }}>
-  <EmptyState
-    icon="📭"
-    message="Henüz veri yok"
-  />
+  <EmptyState message="No data yet" />
 </Center>
 
-// Inline ortalama
+// Inline centering
 <Center inline>
   <Icon /> Centered inline
 </Center>`}
@@ -593,33 +583,33 @@ function SpacerSection() {
       name: "grow",
       type: "number",
       defaultValue: "1",
-      description: "flex-grow değeri. Alanı ne kadar dolduracağını belirler."
+      description: "flex-grow value. Determines how much space to fill."
     }
   ];
 
   return (
     <DocSection
       title="Spacer"
-      description="Flex container içinde boşluk oluşturur. Elemanları uzaklaştırmak için kullanılır."
+      description="Creates space within a flex container. Used to push elements apart."
     >
       <Stack gap={14}>
         <PropsTable rows={spacerProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
           <Inline align="center" gap={10}>
-            <DemoBox height={40} label="Logo" color="rgba(100,140,255,0.2)" />
+            <DemoBox height={40} label="Logo" color={colors.secondary} />
             <Spacer />
-            <DemoBox height={40} label="Nav" color="rgba(80,200,120,0.2)" />
-            <DemoBox height={40} label="User" color="rgba(255,180,70,0.2)" />
+            <DemoBox height={40} label="Nav" color={colors.dark} />
+            <DemoBox height={40} label="User" color={colors.secondary} />
           </Inline>
         </div>
 
         <CodeBlock
-          title="Header Örneği"
+          title="Header Example"
           language="tsx"
           code={`<Inline align="center" gap={12}>
   <Logo />
-  <Spacer />  {/* Logo ile nav arasını doldurur */}
+  <Spacer />  {/* Fills space between logo and nav */}
   <Nav />
   <UserMenu />
 </Inline>`}
@@ -631,43 +621,43 @@ function SpacerSection() {
 
 function GridSection() {
   const gridProps: PropRow[] = [
-    { name: "columns", type: "Responsive<number>", defaultValue: "12", description: "Sütun sayısı" },
-    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "Tüm boşluklar" },
-    { name: "rowGap", type: "Responsive<number>", description: "Satır boşluğu (gap'i override eder)" },
-    { name: "colGap", type: "Responsive<number>", description: "Sütun boşluğu (gap'i override eder)" },
-    { name: "flow", type: '"row" | "column" | "row dense" | "column dense"', defaultValue: '"row"', description: "Grid akış yönü" }
+    { name: "columns", type: "Responsive<number>", defaultValue: "12", description: "Number of columns" },
+    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "All gaps" },
+    { name: "rowGap", type: "Responsive<number>", description: "Row gap (overrides gap)" },
+    { name: "colGap", type: "Responsive<number>", description: "Column gap (overrides gap)" },
+    { name: "flow", type: '"row" | "column" | "row dense" | "column dense"', defaultValue: '"row"', description: "Grid flow direction" }
   ];
 
   const gridItemProps: PropRow[] = [
-    { name: "span", type: 'Responsive<number | "auto" | "full">', defaultValue: '"auto"', description: "Kaç sütun kaplayacak" },
-    { name: "start", type: 'Responsive<number | "auto">', defaultValue: '"auto"', description: "Başlangıç sütunu" },
-    { name: "order", type: "Responsive<number>", description: "Sıralama önceliği" },
-    { name: "alignSelf", type: "CSSProperties['alignSelf']", description: "Dikey hizalama" },
-    { name: "justifySelf", type: "CSSProperties['justifySelf']", description: "Yatay hizalama" }
+    { name: "span", type: 'Responsive<number | "auto" | "full">', defaultValue: '"auto"', description: "How many columns to span" },
+    { name: "start", type: 'Responsive<number | "auto">', defaultValue: '"auto"', description: "Starting column" },
+    { name: "order", type: "Responsive<number>", description: "Sort priority" },
+    { name: "alignSelf", type: "CSSProperties['alignSelf']", description: "Vertical alignment" },
+    { name: "justifySelf", type: "CSSProperties['justifySelf']", description: "Horizontal alignment" }
   ];
 
   return (
     <DocSection
       title="Grid & GridItem"
-      description="CSS Grid tabanlı 12 sütunlu layout sistemi. Karmaşık dashboard ve sayfa düzenleri için."
+      description="CSS Grid based 12-column layout system. For complex dashboards and page layouts."
     >
       <Stack gap={14}>
         <PropsTable title="Grid Props" rows={gridProps} />
         <PropsTable title="GridItem Props" rows={gridItemProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
-          <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>12 Sütun Demo</div>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
+          <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>12 Column Demo</div>
           <Grid columns={12} gap={6}>
-            <GridItem span={12}><DemoBox height={40} label="span=12 (full)" color="rgba(100,140,255,0.2)" /></GridItem>
-            <GridItem span={6}><DemoBox height={40} label="span=6" color="rgba(80,200,120,0.2)" /></GridItem>
-            <GridItem span={6}><DemoBox height={40} label="span=6" color="rgba(80,200,120,0.2)" /></GridItem>
-            <GridItem span={4}><DemoBox height={40} label="span=4" color="rgba(255,180,70,0.2)" /></GridItem>
-            <GridItem span={4}><DemoBox height={40} label="span=4" color="rgba(255,180,70,0.2)" /></GridItem>
-            <GridItem span={4}><DemoBox height={40} label="span=4" color="rgba(255,180,70,0.2)" /></GridItem>
-            <GridItem span={3}><DemoBox height={40} label="3" color="rgba(200,100,255,0.2)" /></GridItem>
-            <GridItem span={3}><DemoBox height={40} label="3" color="rgba(200,100,255,0.2)" /></GridItem>
-            <GridItem span={3}><DemoBox height={40} label="3" color="rgba(200,100,255,0.2)" /></GridItem>
-            <GridItem span={3}><DemoBox height={40} label="3" color="rgba(200,100,255,0.2)" /></GridItem>
+            <GridItem span={12}><DemoBox height={40} label="span=12 (full)" color={colors.secondary} /></GridItem>
+            <GridItem span={6}><DemoBox height={40} label="span=6" color={colors.dark} /></GridItem>
+            <GridItem span={6}><DemoBox height={40} label="span=6" color={colors.dark} /></GridItem>
+            <GridItem span={4}><DemoBox height={40} label="span=4" color={colors.secondary} /></GridItem>
+            <GridItem span={4}><DemoBox height={40} label="span=4" color={colors.secondary} /></GridItem>
+            <GridItem span={4}><DemoBox height={40} label="span=4" color={colors.secondary} /></GridItem>
+            <GridItem span={3}><DemoBox height={40} label="3" color={colors.dark} /></GridItem>
+            <GridItem span={3}><DemoBox height={40} label="3" color={colors.dark} /></GridItem>
+            <GridItem span={3}><DemoBox height={40} label="3" color={colors.dark} /></GridItem>
+            <GridItem span={3}><DemoBox height={40} label="3" color={colors.dark} /></GridItem>
           </Grid>
         </div>
 
@@ -714,32 +704,32 @@ function GridSection() {
 
 function AutoGridSection() {
   const autoGridProps: PropRow[] = [
-    { name: "minItemWidth", type: "Responsive<number>", defaultValue: "240", description: "Minimum eleman genişliği (px). Grid otomatik sütun sayısı hesaplar." },
-    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "Elemanlar arası boşluk" },
-    { name: "minRowHeight", type: "Responsive<number>", description: "Minimum satır yüksekliği" },
-    { name: "align", type: "CSSProperties['alignItems']", description: "Dikey hizalama" },
-    { name: "justify", type: "CSSProperties['justifyItems']", description: "Yatay hizalama" }
+    { name: "minItemWidth", type: "Responsive<number>", defaultValue: "240", description: "Minimum element width (px). Grid automatically calculates column count." },
+    { name: "gap", type: "Responsive<number>", defaultValue: "12", description: "Gap between elements" },
+    { name: "minRowHeight", type: "Responsive<number>", description: "Minimum row height" },
+    { name: "align", type: "CSSProperties['alignItems']", description: "Vertical alignment" },
+    { name: "justify", type: "CSSProperties['justifyItems']", description: "Horizontal alignment" }
   ];
 
   return (
     <DocSection
       title="AutoGrid"
-      description="Otomatik sütun sayısı hesaplayan grid. Kart listeleri, galeri ve ürün gridleri için ideal."
+      description="Grid with automatic column count calculation. Ideal for card lists, galleries, and product grids."
     >
       <Stack gap={14}>
         <PropsTable rows={autoGridProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
-          <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>Auto-fit Demo (minItemWidth: 150px)</div>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
+          <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 12, opacity: 0.8 }}>Auto-fit Demo (minItemWidth: 150px)</div>
           <AutoGrid minItemWidth={150} gap={10}>
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <DemoBox key={i} height={80} label={`Card ${i}`} color={`rgba(${100 + i * 20},${140 - i * 10},255,0.15)`} />
+              <DemoBox key={i} height={80} label={`Card ${i}`} color={i % 2 === 0 ? colors.secondary : colors.dark} />
             ))}
           </AutoGrid>
         </div>
 
         <CodeBlock
-          title="Ürün Listesi"
+          title="Product List"
           language="tsx"
           code={`<AutoGrid
   minItemWidth={{ base: 160, md: 220 }}
@@ -757,16 +747,16 @@ function AutoGridSection() {
 
 function ShowHideSection() {
   const showProps: PropRow[] = [
-    { name: "above", type: "BreakpointKey", description: "Belirtilen breakpoint ve üstünde gösterir" },
-    { name: "below", type: "BreakpointKey", description: "Belirtilen breakpoint'in altında gösterir" },
-    { name: "between", type: "[BreakpointKey, BreakpointKey]", description: "İki breakpoint arasında gösterir" },
-    { name: "when", type: "Responsive<boolean>", description: "Responsive boolean koşulu" },
-    { name: "fallback", type: "ReactNode", defaultValue: "null", description: "Gizliyken gösterilecek içerik" },
-    { name: "invert", type: "boolean", defaultValue: "false", description: "Koşulu tersine çevirir" }
+    { name: "above", type: "BreakpointKey", description: "Shows at and above the specified breakpoint" },
+    { name: "below", type: "BreakpointKey", description: "Shows below the specified breakpoint" },
+    { name: "between", type: "[BreakpointKey, BreakpointKey]", description: "Shows between two breakpoints" },
+    { name: "when", type: "Responsive<boolean>", description: "Responsive boolean condition" },
+    { name: "fallback", type: "ReactNode", defaultValue: "null", description: "Content to show when hidden" },
+    { name: "invert", type: "boolean", defaultValue: "false", description: "Inverts the condition" }
   ];
 
   const onlyProps: PropRow[] = [
-    { name: "on", type: "BreakpointKey | BreakpointKey[]", required: true, description: "Sadece bu breakpoint(lar)da göster" }
+    { name: "on", type: "BreakpointKey | BreakpointKey[]", required: true, description: "Show only at this breakpoint(s)" }
   ];
 
   const bp = useBreakpoint();
@@ -777,7 +767,7 @@ function ShowHideSection() {
       description={
         <Stack gap={10}>
           <div>
-            Breakpoint bazlı conditional rendering. CSS display:none yerine React'te render kontrolü sağlar.
+            Breakpoint-based conditional rendering. Controls React render instead of CSS display:none.
           </div>
           <LiveBreakpointIndicator />
         </Stack>
@@ -787,24 +777,24 @@ function ShowHideSection() {
         <PropsTable title="Show Props" rows={showProps} />
         <PropsTable title="Only Props" rows={onlyProps} />
 
-        <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 16 }}>
+        <div style={{ background: colors.dark, borderRadius: 8, padding: 16 }}>
           <Stack gap={10}>
-            <div style={{ fontWeight: 700, fontSize: 13, opacity: 0.8 }}>Live Demo (resize to test)</div>
+            <div style={{ fontWeight: 600, fontSize: 13, opacity: 0.8 }}>Live Demo (resize to test)</div>
 
             <Show below="md">
-              <DemoBox height={50} label="Show below='md' - Mobile Only" color="rgba(255,100,100,0.2)" />
+              <DemoBox height={50} label="Show below='md' - Mobile Only" color={colors.secondary} />
             </Show>
 
             <Show above="md">
-              <DemoBox height={50} label="Show above='md' - Tablet & Desktop" color="rgba(100,255,100,0.2)" />
+              <DemoBox height={50} label="Show above='md' - Tablet & Desktop" color={colors.dark} />
             </Show>
 
             <Show between={["sm", "lg"]}>
-              <DemoBox height={50} label="Show between={['sm', 'lg']} - sm to lg" color="rgba(100,100,255,0.2)" />
+              <DemoBox height={50} label="Show between={['sm', 'lg']} - sm to lg" color={colors.secondary} />
             </Show>
 
             <Only on="md">
-              <DemoBox height={50} label="Only on='md' - Exactly md" color="rgba(255,200,100,0.2)" />
+              <DemoBox height={50} label="Only on='md' - Exactly md" color={colors.dark} />
             </Only>
           </Stack>
         </div>
@@ -815,12 +805,12 @@ function ShowHideSection() {
           code={`function Navigation() {
   return (
     <>
-      {/* Mobilde hamburger menü */}
+      {/* Hamburger menu on mobile */}
       <Show below="lg">
         <MobileMenu />
       </Show>
 
-      {/* Desktop'ta horizontal nav */}
+      {/* Horizontal nav on desktop */}
       <Hide below="lg">
         <DesktopNav />
       </Hide>
@@ -830,7 +820,7 @@ function ShowHideSection() {
         />
 
         <CodeBlock
-          title="Fallback Kullanımı"
+          title="Fallback Usage"
           language="tsx"
           code={`<Show
   above="md"
@@ -846,17 +836,17 @@ function ShowHideSection() {
 
 function SidebarLayoutSection() {
   const sidebarLayoutProps: PropRow[] = [
-    { name: "sidebar", type: "ReactNode", required: true, description: "Sidebar içeriği (menü, navigasyon)" },
-    { name: "children", type: "ReactNode", required: true, description: "Ana sayfa içeriği" },
-    { name: "collapseBelow", type: "BreakpointKey", defaultValue: '"lg"', description: "Bu breakpoint altında drawer'a dönüşür" },
-    { name: "sidebarWidth", type: "number", defaultValue: "280", description: "Sidebar genişliği (px)" },
-    { name: "overlayColor", type: "string", defaultValue: '"rgba(0,0,0,0.55)"', description: "Mobil drawer overlay rengi" },
-    { name: "open", type: "boolean", description: "Controlled mod: drawer açık mı?" },
-    { name: "onOpenChange", type: "(open: boolean) => void", description: "Controlled mod: state değişimi callback" },
-    { name: "defaultOpen", type: "boolean", defaultValue: "false", description: "Uncontrolled mod: başlangıç durumu" },
-    { name: "showToggle", type: "boolean", defaultValue: "true", description: "Mobilde toggle butonu göster" },
-    { name: "toggleLabel", type: "string", defaultValue: '"Menu"', description: "Toggle butonu etiketi" },
-    { name: "topbarRight", type: "ReactNode", description: "Mobil topbar sağ slot'u" }
+    { name: "sidebar", type: "ReactNode", required: true, description: "Sidebar content (menu, navigation)" },
+    { name: "children", type: "ReactNode", required: true, description: "Main page content" },
+    { name: "collapseBelow", type: "BreakpointKey", defaultValue: '"lg"', description: "Transforms to drawer below this breakpoint" },
+    { name: "sidebarWidth", type: "number", defaultValue: "280", description: "Sidebar width (px)" },
+    { name: "overlayColor", type: "string", defaultValue: '"rgba(0,0,0,0.55)"', description: "Mobile drawer overlay color" },
+    { name: "open", type: "boolean", description: "Controlled mode: is drawer open?" },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Controlled mode: state change callback" },
+    { name: "defaultOpen", type: "boolean", defaultValue: "false", description: "Uncontrolled mode: initial state" },
+    { name: "showToggle", type: "boolean", defaultValue: "true", description: "Show toggle button on mobile" },
+    { name: "toggleLabel", type: "string", defaultValue: '"Menu"', description: "Toggle button label" },
+    { name: "topbarRight", type: "ReactNode", description: "Mobile topbar right slot" }
   ];
 
   return (
@@ -865,10 +855,10 @@ function SidebarLayoutSection() {
       description={
         <Stack gap={10}>
           <div>
-            Responsive sidebar/drawer layout. Desktop'ta sabit sidebar, mobilde slide-in drawer olarak çalışır.
+            Responsive sidebar/drawer layout. Fixed sidebar on desktop, slide-in drawer on mobile.
           </div>
           <Inline gap={8}>
-            <Chip variant="success">ESC ile kapanır</Chip>
+            <Chip variant="success">ESC to close</Chip>
             <Chip variant="success">Body scroll lock</Chip>
             <Chip variant="success">Overlay click to close</Chip>
           </Inline>
@@ -933,16 +923,16 @@ function DashboardNav() {
 
 function PageShellSection() {
   const pageShellProps: PropRow[] = [
-    { name: "title", type: "ReactNode", required: true, description: "Sayfa başlığı" },
-    { name: "subtitle", type: "ReactNode", description: "Başlık altı açıklama" },
-    { name: "actions", type: "ReactNode", description: "Header sağ tarafı (butonlar, aksiyonlar)" },
-    { name: "sidebar", type: "ReactNode", description: "Verilirse SidebarLayout ile sarılır" },
-    { name: "footer", type: "ReactNode", description: "Sayfa altı içeriği" },
-    { name: "children", type: "ReactNode", required: true, description: "Ana içerik" },
-    { name: "containerSize", type: 'Responsive<"sm" | "md" | "lg" | "xl">', defaultValue: '{ base: "sm", md: "xl" }', description: "İçerik container boyutu" },
+    { name: "title", type: "ReactNode", required: true, description: "Page title" },
+    { name: "subtitle", type: "ReactNode", description: "Subtitle description" },
+    { name: "actions", type: "ReactNode", description: "Header right side (buttons, actions)" },
+    { name: "sidebar", type: "ReactNode", description: "If provided, wraps with SidebarLayout" },
+    { name: "footer", type: "ReactNode", description: "Page footer content" },
+    { name: "children", type: "ReactNode", required: true, description: "Main content" },
+    { name: "containerSize", type: 'Responsive<"sm" | "md" | "lg" | "xl">', defaultValue: '{ base: "sm", md: "xl" }', description: "Content container size" },
     { name: "gutter", type: "Responsive<number>", defaultValue: "{ base: 12, md: 24 }", description: "Container padding" },
     { name: "collapseBelow", type: "BreakpointKey", defaultValue: '"lg"', description: "Sidebar collapse breakpoint" },
-    { name: "sidebarWidth", type: "number", defaultValue: "300", description: "Sidebar genişliği" }
+    { name: "sidebarWidth", type: "number", defaultValue: "300", description: "Sidebar width" }
   ];
 
   return (
@@ -951,7 +941,7 @@ function PageShellSection() {
       description={
         <Stack gap={10}>
           <div>
-            Hazır sayfa şablonu. Header (title, subtitle, actions), footer ve opsiyonel sidebar ile komple sayfa yapısı sunar.
+            Ready-made page template. Complete page structure with header (title, subtitle, actions), footer, and optional sidebar.
           </div>
           <Inline gap={8}>
             <Chip variant="primary">Preset</Chip>
@@ -964,38 +954,38 @@ function PageShellSection() {
         <PropsTable rows={pageShellProps} />
 
         <CodeBlock
-          title="Basit Sayfa"
+          title="Simple Page"
           language="tsx"
           code={`<PageShell
-  title="Kullanıcı Profili"
-  subtitle="Hesap ayarlarınızı ve tercihlerinizi yönetin"
+  title="User Profile"
+  subtitle="Manage your account settings and preferences"
   actions={
     <>
-      <Button variant="secondary">İptal</Button>
-      <Button variant="primary">Kaydet</Button>
+      <Button variant="secondary">Cancel</Button>
+      <Button variant="primary">Save</Button>
     </>
   }
-  footer="Son güncelleme: 2 saat önce"
+  footer="Last updated: 2 hours ago"
 >
   <ProfileForm />
 </PageShell>`}
         />
 
         <CodeBlock
-          title="Dashboard ile"
+          title="With Dashboard"
           language="tsx"
           code={`<PageShell
   title="Dashboard"
-  subtitle="Günlük özet ve istatistikler"
+  subtitle="Daily summary and statistics"
   sidebar={
     <Stack gap={4}>
-      <NavItem active>Genel Bakış</NavItem>
-      <NavItem>Analitik</NavItem>
-      <NavItem>Raporlar</NavItem>
-      <NavItem>Ayarlar</NavItem>
+      <NavItem active>Overview</NavItem>
+      <NavItem>Analytics</NavItem>
+      <NavItem>Reports</NavItem>
+      <NavItem>Settings</NavItem>
     </Stack>
   }
-  actions={<Button>Yeni Rapor</Button>}
+  actions={<Button>New Report</Button>}
 >
   <DashboardWidgets />
 </PageShell>`}
@@ -1007,27 +997,27 @@ function PageShellSection() {
 
 function DocsComponentsSection() {
   const codeBlockProps: PropRow[] = [
-    { name: "code", type: "string", required: true, description: "Gösterilecek kod" },
-    { name: "language", type: "string", defaultValue: '"tsx"', description: "Syntax highlighting için dil" },
-    { name: "title", type: "string", description: "Kod bloğu başlığı" },
-    { name: "maxHeight", type: "number", defaultValue: "360", description: "Maksimum yükseklik (scroll için)" }
+    { name: "code", type: "string", required: true, description: "Code to display" },
+    { name: "language", type: "string", defaultValue: '"tsx"', description: "Language for syntax highlighting" },
+    { name: "title", type: "string", description: "Code block title" },
+    { name: "maxHeight", type: "number", defaultValue: "360", description: "Maximum height (for scroll)" }
   ];
 
   const propsTableProps: PropRow[] = [
-    { name: "title", type: "string", defaultValue: '"Props"', description: "Tablo başlığı" },
-    { name: "rows", type: "PropRow[]", required: true, description: "Prop satırları dizisi" }
+    { name: "title", type: "string", defaultValue: '"Props"', description: "Table title" },
+    { name: "rows", type: "PropRow[]", required: true, description: "Array of prop rows" }
   ];
 
   const docSectionProps: PropRow[] = [
-    { name: "title", type: "string", required: true, description: "Bölüm başlığı" },
-    { name: "description", type: "ReactNode", description: "Bölüm açıklaması" },
-    { name: "children", type: "ReactNode", required: true, description: "Bölüm içeriği" }
+    { name: "title", type: "string", required: true, description: "Section title" },
+    { name: "description", type: "ReactNode", description: "Section description" },
+    { name: "children", type: "ReactNode", required: true, description: "Section content" }
   ];
 
   return (
     <DocSection
       title="Docs Components"
-      description="Dokümantasyon sayfaları oluşturmak için yardımcı bileşenler."
+      description="Helper components for creating documentation pages."
     >
       <Stack gap={14}>
         <PropsTable title="CodeBlock Props" rows={codeBlockProps} />
@@ -1035,23 +1025,23 @@ function DocsComponentsSection() {
         <PropsTable title="DocSection Props" rows={docSectionProps} />
 
         <CodeBlock
-          title="PropRow Tipi"
+          title="PropRow Type"
           language="tsx"
           code={`type PropRow = {
-  name: string;        // Prop adı
-  type: string;        // TypeScript tipi
-  required?: boolean;  // Zorunlu mu?
-  defaultValue?: string; // Varsayılan değer
-  description: string; // Açıklama
+  name: string;        // Prop name
+  type: string;        // TypeScript type
+  required?: boolean;  // Is required?
+  defaultValue?: string; // Default value
+  description: string; // Description
 };`}
         />
 
         <CodeBlock
-          title="Kullanım Örneği"
+          title="Usage Example"
           language="tsx"
           code={`<DocSection
   title="Button API"
-  description="Tıklanabilir aksiyon bileşeni."
+  description="Clickable action component."
 >
   <PropsTable
     rows={[
@@ -1059,7 +1049,7 @@ function DocsComponentsSection() {
         name: "variant",
         type: '"primary" | "secondary"',
         defaultValue: '"primary"',
-        description: "Görsel varyant"
+        description: "Visual variant"
       },
       {
         name: "onClick",
@@ -1087,7 +1077,7 @@ function QuickReferenceSection() {
   return (
     <DocSection
       title="Quick Reference"
-      description="Sık kullanılan pattern'ler ve hızlı başvuru."
+      description="Commonly used patterns and quick reference."
     >
       <Stack gap={14}>
         <CodeBlock
@@ -1110,13 +1100,13 @@ function QuickReferenceSection() {
           language="tsx"
           code={`<Stack gap={16}>
   <Grid columns={{ base: 1, md: 2 }} gap={12}>
-    <Input label="Ad" />
-    <Input label="Soyad" />
+    <Input label="First Name" />
+    <Input label="Last Name" />
   </Grid>
   <Input label="Email" />
   <Inline gap={10} justify="flex-end">
-    <Button variant="secondary">İptal</Button>
-    <Button variant="primary">Kaydet</Button>
+    <Button variant="secondary">Cancel</Button>
+    <Button variant="primary">Save</Button>
   </Inline>
 </Stack>`}
         />
@@ -1174,16 +1164,12 @@ function QuickReferenceSection() {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   MAIN DOCS PAGE
-   ───────────────────────────────────────────────────────────────────────────── */
-
 export function DocsPage() {
   const [activeSection, setActiveSection] = useState("intro");
 
   const sections = [
-    { id: "intro", label: "Giriş", component: IntroSection },
-    { id: "install", label: "Kurulum", component: InstallationSection },
+    { id: "intro", label: "Introduction", component: IntroSection },
+    { id: "install", label: "Installation", component: InstallationSection },
     { id: "breakpoints", label: "Breakpoints", component: BreakpointsSection },
     { id: "container", label: "Container", component: ContainerSection },
     { id: "stack", label: "Stack", component: StackSection },
@@ -1260,10 +1246,10 @@ export function DocsPage() {
             disabled={sections.findIndex((s) => s.id === activeSection) === 0}
             style={{
               padding: "10px 16px",
-              borderRadius: 10,
-              border: "1px solid rgba(255,255,255,0.14)",
-              background: "rgba(255,255,255,0.03)",
-              color: "rgba(255,255,255,0.8)",
+              borderRadius: 6,
+              border: `1px solid ${colors.dark}`,
+              background: colors.dark,
+              color: "rgba(255,255,255,0.9)",
               cursor: "pointer",
               fontWeight: 600,
               opacity: sections.findIndex((s) => s.id === activeSection) === 0 ? 0.4 : 1
@@ -1282,10 +1268,10 @@ export function DocsPage() {
             disabled={sections.findIndex((s) => s.id === activeSection) === sections.length - 1}
             style={{
               padding: "10px 16px",
-              borderRadius: 10,
-              border: "1px solid rgba(100,140,255,0.35)",
-              background: "rgba(100,140,255,0.10)",
-              color: "rgba(255,255,255,0.9)",
+              borderRadius: 6,
+              border: `1px solid ${colors.primary}`,
+              background: colors.primary,
+              color: "rgba(255,255,255,0.95)",
               cursor: "pointer",
               fontWeight: 600,
               opacity: sections.findIndex((s) => s.id === activeSection) === sections.length - 1 ? 0.4 : 1
@@ -1296,7 +1282,6 @@ export function DocsPage() {
         </Inline>
       </Stack>
 
-      {/* Global animation styles */}
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 1; }

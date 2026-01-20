@@ -16,30 +16,36 @@ import {
 } from "@darc/layout";
 import { DocsPage } from "./DocsPage";
 
+const colors = {
+  primary: "#E23E57",
+  secondary: "#88304E",
+  dark: "#522546",
+  darkest: "#311D3F"
+};
+
 const styles = {
   page: {
     minHeight: "100vh",
     width: "100%",
-    background:
-      "radial-gradient(circle at 20% 10%, rgba(90,120,255,0.18), transparent 40%), radial-gradient(circle at 80% 30%, rgba(255,140,70,0.14), transparent 45%), #0b0f17",
+    background: colors.darkest,
     color: "rgba(255,255,255,0.92)",
     overflowX: "hidden"
   } as React.CSSProperties,
 
   card: {
-    border: "1px solid rgba(255,255,255,0.16)",
-    borderRadius: 14,
+    border: `1px solid ${colors.dark}`,
+    borderRadius: 8,
     padding: 16,
-    background: "rgba(255,255,255,0.04)",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.25)"
+    background: colors.dark,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
   } as React.CSSProperties,
 
   chip: {
     fontSize: 12,
     padding: "4px 10px",
-    borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.18)",
-    background: "rgba(255,255,255,0.03)",
+    borderRadius: 4,
+    border: `1px solid ${colors.secondary}`,
+    background: colors.dark,
     whiteSpace: "nowrap"
   } as React.CSSProperties,
 
@@ -58,7 +64,7 @@ const styles = {
   hr: {
     border: "none",
     height: 1,
-    background: "rgba(255,255,255,0.12)",
+    background: colors.dark,
     margin: "18px 0"
   } as React.CSSProperties
 };
@@ -72,7 +78,7 @@ function Card({ title, badge }: { title: string; badge?: string }) {
       </div>
 
       <p style={{ margin: 0, opacity: 0.85, lineHeight: 1.35 }}>
-        AutoGrid minItemWidth ile kolon sayısını otomatik ayarlar.
+        AutoGrid automatically adjusts column count with minItemWidth.
       </p>
     </div>
   );
@@ -84,8 +90,8 @@ function Banner({ children }: { children: React.ReactNode }) {
       style={{
         ...styles.card,
         padding: 12,
-        background: "rgba(60,120,255,0.10)",
-        border: "1px solid rgba(90,120,255,0.35)"
+        background: colors.secondary,
+        border: `1px solid ${colors.primary}`
       }}
     >
       {children}
@@ -96,19 +102,19 @@ function Banner({ children }: { children: React.ReactNode }) {
 function DemoBox({
   label,
   hint,
-  tone = "blue",
+  tone = "primary",
   children
 }: {
   label: string;
   hint?: string;
-  tone?: "blue" | "green" | "orange" | "purple";
+  tone?: "primary" | "secondary" | "dark" | "accent";
   children: React.ReactNode;
 }) {
   const toneMap: Record<string, { border: string; bg: string }> = {
-    blue: { border: "rgba(90,120,255,0.45)", bg: "rgba(90,120,255,0.10)" },
-    green: { border: "rgba(80,220,150,0.45)", bg: "rgba(80,220,150,0.08)" },
-    orange: { border: "rgba(255,160,70,0.50)", bg: "rgba(255,160,70,0.08)" },
-    purple: { border: "rgba(190,120,255,0.50)", bg: "rgba(190,120,255,0.08)" }
+    primary: { border: colors.primary, bg: colors.dark },
+    secondary: { border: colors.secondary, bg: colors.darkest },
+    dark: { border: colors.dark, bg: colors.darkest },
+    accent: { border: colors.primary, bg: colors.secondary }
   };
 
   const t = toneMap[tone];
@@ -139,9 +145,9 @@ function MiniChip({ children }: { children: React.ReactNode }) {
         alignItems: "center",
         gap: 8,
         padding: "8px 12px",
-        borderRadius: 999,
-        border: "1px solid rgba(255,255,255,0.16)",
-        background: "rgba(255,255,255,0.03)",
+        borderRadius: 4,
+        border: `1px solid ${colors.secondary}`,
+        background: colors.dark,
         whiteSpace: "nowrap"
       }}
     >
@@ -150,17 +156,15 @@ function MiniChip({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Sidebar (göze hitap eden) */
 function PrettySidebar() {
   return (
     <div style={{ display: "grid", gap: 14, padding: 14 }}>
       <div
         style={{
-          borderRadius: 16,
+          borderRadius: 8,
           padding: 14,
-          border: "1px solid rgba(255,255,255,0.10)",
-          background:
-            "radial-gradient(circle at 30% 20%, rgba(90,120,255,0.16), transparent 60%), rgba(255,255,255,0.03)"
+          border: `1px solid ${colors.dark}`,
+          background: colors.dark
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -168,15 +172,15 @@ function PrettySidebar() {
             style={{
               width: 38,
               height: 38,
-              borderRadius: 12,
+              borderRadius: 8,
               display: "grid",
               placeItems: "center",
-              border: "1px solid rgba(255,255,255,0.16)",
-              background: "rgba(255,255,255,0.04)",
-              boxShadow: "0 10px 24px rgba(0,0,0,0.35)"
+              border: `1px solid ${colors.secondary}`,
+              background: colors.secondary,
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
             }}
           >
-            <span style={{ fontSize: 18 }}>🧭</span>
+            <span style={{ fontSize: 14, fontWeight: 700 }}>D</span>
           </div>
 
           <div style={{ minWidth: 0 }}>
@@ -186,14 +190,14 @@ function PrettySidebar() {
         </div>
       </div>
 
-      <div style={{ fontSize: 12, opacity: 0.65, paddingLeft: 4 }}>NAVIGATION</div>
+      <div style={{ fontSize: 12, opacity: 0.65, paddingLeft: 4, textTransform: "uppercase", letterSpacing: 1 }}>Navigation</div>
 
       <div style={{ display: "grid", gap: 8 }}>
         {[
-          { label: "Dashboard", icon: "📊", active: true },
-          { label: "Projects", icon: "🧩" },
-          { label: "Docs", icon: "📚" },
-          { label: "Settings", icon: "⚙️" }
+          { label: "Dashboard", active: true },
+          { label: "Projects" },
+          { label: "Docs" },
+          { label: "Settings" }
         ].map((item) => (
           <button
             key={item.label}
@@ -207,45 +211,30 @@ function PrettySidebar() {
                 alignItems: "center",
                 gap: 10,
                 padding: "10px 12px",
-                borderRadius: 14,
+                borderRadius: 6,
                 border: item.active
-                  ? "1px solid rgba(90,120,255,0.45)"
-                  : "1px solid rgba(255,255,255,0.10)",
-                background: item.active ? "rgba(90,120,255,0.12)" : "rgba(255,255,255,0.03)",
-                boxShadow: item.active ? "0 10px 28px rgba(0,0,0,0.30)" : "none"
+                  ? `1px solid ${colors.primary}`
+                  : `1px solid ${colors.dark}`,
+                background: item.active ? colors.secondary : colors.dark,
+                boxShadow: item.active ? "0 4px 12px rgba(0,0,0,0.25)" : "none"
               }}
             >
               <div
                 style={{
                   width: 3,
                   height: 18,
-                  borderRadius: 999,
-                  background: item.active ? "rgba(90,120,255,0.95)" : "transparent"
+                  borderRadius: 2,
+                  background: item.active ? colors.primary : "transparent"
                 }}
               />
 
-              <div
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 12,
-                  display: "grid",
-                  placeItems: "center",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  background: "rgba(255,255,255,0.03)"
-                }}
-              >
-                <span style={{ fontSize: 15 }}>{item.icon}</span>
-              </div>
-
-              <div style={{ fontWeight: 800 }}>{item.label}</div>
-              <div style={{ marginLeft: "auto", opacity: 0.55, fontSize: 12 }}>↵</div>
+              <div style={{ fontWeight: 600 }}>{item.label}</div>
             </div>
           </button>
         ))}
       </div>
 
-      <div style={{ height: 1, background: "rgba(255,255,255,0.10)", margin: "6px 0" }} />
+      <div style={{ height: 1, background: colors.dark, margin: "6px 0" }} />
 
       <div
         style={{
@@ -253,27 +242,28 @@ function PrettySidebar() {
           alignItems: "center",
           gap: 10,
           padding: 12,
-          borderRadius: 16,
-          border: "1px solid rgba(255,255,255,0.10)",
-          background: "rgba(255,255,255,0.03)"
+          borderRadius: 8,
+          border: `1px solid ${colors.dark}`,
+          background: colors.dark
         }}
       >
         <div
           style={{
             width: 36,
             height: 36,
-            borderRadius: 14,
+            borderRadius: 8,
             display: "grid",
             placeItems: "center",
-            border: "1px solid rgba(255,255,255,0.14)",
-            background: "rgba(255,255,255,0.04)"
+            border: `1px solid ${colors.secondary}`,
+            background: colors.secondary,
+            fontWeight: 700
           }}
         >
-          👤
+          A
         </div>
 
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontWeight: 900, fontSize: 13 }}>Akın</div>
+          <div style={{ fontWeight: 700, fontSize: 13 }}>Akin</div>
           <div style={{ opacity: 0.7, fontSize: 12 }}>Local dev</div>
         </div>
 
@@ -294,15 +284,13 @@ export default function App() {
 
   return (
     <div style={styles.page}>
-      {/* TOP BAR */}
       <div
         style={{
           position: "sticky",
           top: 0,
           zIndex: 50,
-          borderBottom: "1px solid rgba(255,255,255,0.10)",
-          background: "rgba(11,15,23,0.72)",
-          backdropFilter: "blur(10px)"
+          borderBottom: `1px solid ${colors.dark}`,
+          background: colors.secondary
         }}
       >
         <Container size={{ base: "sm", md: "xl" }} gutter={{ base: 12, md: 24 }}>
@@ -314,19 +302,19 @@ export default function App() {
             <button
               onClick={() => setView("playground")}
               style={{
-                padding: "8px 10px",
-                borderRadius: 12,
+                padding: "8px 14px",
+                borderRadius: 6,
                 border:
                   view === "playground"
-                    ? "1px solid rgba(90,120,255,0.55)"
-                    : "1px solid rgba(255,255,255,0.14)",
+                    ? `1px solid ${colors.primary}`
+                    : `1px solid ${colors.dark}`,
                 background:
                   view === "playground"
-                    ? "rgba(90,120,255,0.12)"
-                    : "rgba(255,255,255,0.03)",
-                color: "rgba(255,255,255,0.9)",
+                    ? colors.primary
+                    : colors.dark,
+                color: "rgba(255,255,255,0.95)",
                 cursor: "pointer",
-                fontWeight: 850
+                fontWeight: 600
               }}
             >
               Playground
@@ -335,17 +323,17 @@ export default function App() {
             <button
               onClick={() => setView("docs")}
               style={{
-                padding: "8px 10px",
-                borderRadius: 12,
+                padding: "8px 14px",
+                borderRadius: 6,
                 border:
                   view === "docs"
-                    ? "1px solid rgba(90,120,255,0.55)"
-                    : "1px solid rgba(255,255,255,0.14)",
+                    ? `1px solid ${colors.primary}`
+                    : `1px solid ${colors.dark}`,
                 background:
-                  view === "docs" ? "rgba(90,120,255,0.12)" : "rgba(255,255,255,0.03)",
-                color: "rgba(255,255,255,0.9)",
+                  view === "docs" ? colors.primary : colors.dark,
+                color: "rgba(255,255,255,0.95)",
                 cursor: "pointer",
-                fontWeight: 850
+                fontWeight: 600
               }}
             >
               Docs
@@ -366,40 +354,38 @@ export default function App() {
             <div>
               <h1 style={{ margin: 0, fontSize: 44, letterSpacing: -0.5 }}>DARC Layout Playground</h1>
               <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.85 }}>
-                Bu sayfa: Show/Only/Hide, AutoGrid, 12 kolon Grid, Inline/Spacer/Center, SidebarLayout ve PageShell demolarını içerir.
+                This page includes demos for Show/Only/Hide, AutoGrid, 12-column Grid, Inline/Spacer/Center, SidebarLayout, and PageShell.
               </p>
             </div>
 
-            {/* SHOW / ONLY / HIDE */}
             <Stack gap={10}>
               <Show below="md">
                 <Banner>
-                  ✅ <b>Show below="md"</b>: Şu an mobil/sm görünümündesin.
+                  <b>Show below="md"</b>: You are currently in mobile/sm view.
                 </Banner>
               </Show>
 
               <Show above="md">
                 <Banner>
-                  ✅ <b>Show above="md"</b>: Şu an md ve üstü görünümündesin.
+                  <b>Show above="md"</b>: You are currently in md and above view.
                 </Banner>
               </Show>
 
               <Only on="md">
                 <Banner>
-                  🎯 <b>Only on="md"</b>: Sadece md breakpoint’te görünürüm.
+                  <b>Only on="md"</b>: I only appear at the md breakpoint.
                 </Banner>
               </Only>
 
               <Hide below="md">
                 <Banner>
-                  🙈 <b>Hide below="md"</b>: md altındayken gizliyim (md+’da görünürüm).
+                  <b>Hide below="md"</b>: I am hidden below md (visible at md+).
                 </Banner>
               </Hide>
             </Stack>
 
             <div style={styles.hr} />
 
-            {/* AUTOGRID */}
             <h2 style={styles.sectionTitle}>AutoGrid Demo</h2>
             <AutoGrid
               minItemWidth={{ base: 160, sm: 200, md: 220, lg: 240 }}
@@ -412,72 +398,70 @@ export default function App() {
 
             <div style={styles.hr} />
 
-            {/* GRID */}
             <h2 style={styles.sectionTitle}>12 Column Grid Demo</h2>
             <p style={{ margin: 0, opacity: 0.82 }}>
-              Renkler sadece kolon yerleşimini okumayı kolaylaştırmak için. Pencereyi daraltınca hepsi full width olur.
+              Colors are just to make column placement easier to read. All become full width when the window is narrowed.
             </p>
 
             <Grid columns={12} gap={{ base: 12, md: 16 }} flow="row dense" style={{ marginTop: 12 }}>
               <GridItem span={{ base: "full", md: 8 }}>
-                <DemoBox tone="blue" label="Main (span 8)" hint="Mobil: full. md+: 8 kolon.">
-                  <div style={{ opacity: 0.9 }}>Chart, tablo, feed vb.</div>
+                <DemoBox tone="primary" label="Main (span 8)" hint="Mobile: full. md+: 8 columns.">
+                  <div style={{ opacity: 0.9 }}>Chart, table, feed, etc.</div>
                 </DemoBox>
               </GridItem>
 
               <GridItem span={{ base: "full", md: 4 }}>
-                <DemoBox tone="orange" label="Side A (span 4)" hint="Mobil: full. md+: sağ yan panel.">
-                  <div style={{ opacity: 0.9 }}>KPI, filtre, aksiyon kutusu.</div>
+                <DemoBox tone="secondary" label="Side A (span 4)" hint="Mobile: full. md+: right side panel.">
+                  <div style={{ opacity: 0.9 }}>KPI, filter, action box.</div>
                 </DemoBox>
               </GridItem>
 
               <GridItem span={{ base: "full", md: 4 }}>
-                <DemoBox tone="green" label="Side B (span 4)" hint="Dense flow ile boşlukları daha iyi doldurabilir.">
-                  <div style={{ opacity: 0.9 }}>İkinci yan panel.</div>
+                <DemoBox tone="dark" label="Side B (span 4)" hint="Dense flow can fill gaps better.">
+                  <div style={{ opacity: 0.9 }}>Second side panel.</div>
                 </DemoBox>
               </GridItem>
 
               <GridItem span={{ base: "full", md: 8 }}>
-                <DemoBox tone="purple" label="Wide (span 8)" hint="İkinci satırda geniş alan. Form / tablo için iyi.">
-                  <div style={{ opacity: 0.9 }}>Geniş içerik alanı.</div>
+                <DemoBox tone="accent" label="Wide (span 8)" hint="Wide area in second row. Good for forms/tables.">
+                  <div style={{ opacity: 0.9 }}>Wide content area.</div>
                 </DemoBox>
               </GridItem>
             </Grid>
 
             <div style={styles.hr} />
 
-            {/* INLINE + SPACER + CENTER */}
             <h2 style={styles.sectionTitle}>Inline + Spacer + Center</h2>
 
             <Inline
               wrap
               gap={{ base: 8, md: 12 }}
               align="center"
-              style={{ ...styles.card, padding: 12, background: "rgba(255,255,255,0.03)" }}
+              style={{ ...styles.card, padding: 12, background: colors.dark }}
             >
-              <MiniChip>🏷️ Chip A</MiniChip>
-              <MiniChip>🏷️ Chip B</MiniChip>
-              <MiniChip>🏷️ Chip C</MiniChip>
-              <MiniChip>🏷️ Chip D</MiniChip>
-              <MiniChip>🏷️ Chip E</MiniChip>
+              <MiniChip>Chip A</MiniChip>
+              <MiniChip>Chip B</MiniChip>
+              <MiniChip>Chip C</MiniChip>
+              <MiniChip>Chip D</MiniChip>
+              <MiniChip>Chip E</MiniChip>
 
               <Spacer />
 
-              <MiniChip>⚡ Right Action</MiniChip>
+              <MiniChip>Right Action</MiniChip>
             </Inline>
 
             <div
               style={{
                 height: 160,
                 marginTop: 12,
-                borderRadius: 14,
-                border: "1px dashed rgba(255,255,255,0.22)",
-                background: "rgba(255,255,255,0.02)"
+                borderRadius: 8,
+                border: `1px dashed ${colors.secondary}`,
+                background: colors.dark
               }}
             >
               <Center style={{ height: "100%" }}>
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ fontWeight: 700 }}>🎯 Ortadayım</div>
+                  <div style={{ fontWeight: 700 }}>I am centered</div>
                   <div style={{ opacity: 0.8, marginTop: 6 }}>
                     Center = align-items + justify-content
                   </div>
@@ -487,77 +471,75 @@ export default function App() {
 
             <div style={styles.hr} />
 
-            {/* SIDEBAR LAYOUT */}
             <h2 style={styles.sectionTitle}>SidebarLayout</h2>
 
             <SidebarLayout collapseBelow="lg" sidebarWidth={300} sidebar={<PrettySidebar />}>
               <Stack gap={12}>
                 <div style={styles.card}>
                   <b>Content Area</b>
-                  <div style={styles.helper}>Desktop’ta sidebar sabit. Mobilde drawer olarak açılır.</div>
+                  <div style={styles.helper}>Sidebar is fixed on desktop. Opens as drawer on mobile.</div>
                 </div>
 
-                <div style={{ height: 420, borderRadius: 12, border: "1px dashed rgba(255,255,255,0.18)" }} />
+                <div style={{ height: 420, borderRadius: 8, border: `1px dashed ${colors.secondary}` }} />
               </Stack>
             </SidebarLayout>
 
             <div style={styles.hr} />
 
-            {/* PAGESHELL PRESET */}
             <h2 style={styles.sectionTitle}>PageShell (Preset) Demo</h2>
 
             <PageShell
               title="PageShell Preset"
-              subtitle="Header + actions + footer + (opsiyonel) sidebar. Tek component ile iki layout modu."
+              subtitle="Header + actions + footer + (optional) sidebar. Two layout modes in one component."
               actions={
                 <>
                   <button
                     style={{
-                      padding: "8px 10px",
-                      borderRadius: 12,
-                      border: "1px solid rgba(255,255,255,0.16)",
-                      background: "rgba(255,255,255,0.05)",
-                      color: "rgba(255,255,255,0.9)",
+                      padding: "8px 14px",
+                      borderRadius: 6,
+                      border: `1px solid ${colors.dark}`,
+                      background: colors.dark,
+                      color: "rgba(255,255,255,0.95)",
                       cursor: "pointer",
-                      fontWeight: 800
+                      fontWeight: 600
                     }}
                   >
                     New
                   </button>
                   <button
                     style={{
-                      padding: "8px 10px",
-                      borderRadius: 12,
-                      border: "1px solid rgba(255,255,255,0.16)",
-                      background: "rgba(255,255,255,0.05)",
-                      color: "rgba(255,255,255,0.9)",
+                      padding: "8px 14px",
+                      borderRadius: 6,
+                      border: `1px solid ${colors.primary}`,
+                      background: colors.primary,
+                      color: "rgba(255,255,255,0.95)",
                       cursor: "pointer",
-                      fontWeight: 800
+                      fontWeight: 600
                     }}
                   >
                     Export
                   </button>
                 </>
               }
-              footer="Footer slot: copyright, links, version vb. burada."
+              footer="Footer slot: copyright, links, version, etc. go here."
               sidebar={<PrettySidebar />}
             >
               <div style={{ display: "grid", gap: 12 }}>
                 <div
                   style={{
-                    borderRadius: 14,
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    background: "rgba(255,255,255,0.03)",
+                    borderRadius: 8,
+                    border: `1px solid ${colors.dark}`,
+                    background: colors.dark,
                     padding: 14
                   }}
                 >
                   <b>Content</b>
                   <div style={{ opacity: 0.78, marginTop: 6, lineHeight: 1.45 }}>
-                    PageShell burada içerik alanını taşıyor. Container + Stack ritmini otomatikleştiriyor.
+                    PageShell carries the content area here. Automates Container + Stack rhythm.
                   </div>
                 </div>
 
-                <div style={{ height: 320, borderRadius: 14, border: "1px dashed rgba(255,255,255,0.18)" }} />
+                <div style={{ height: 320, borderRadius: 8, border: `1px dashed ${colors.secondary}` }} />
               </div>
             </PageShell>
           </Stack>
